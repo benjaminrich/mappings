@@ -1,0 +1,15 @@
+Package: mapping
+Type: Package
+Version: 0.5
+Date: 2021-02-13
+Title: Mapping
+Authors@R: person("Benjamin", "Rich", role=c("aut", "cre", "cph"), email="mail@benjaminrich.net")
+URL: https://github.com/benjaminrich/mapping
+BugReports: https://github.com/benjaminrich/mapping/issues
+Description: Easily create maps between different sets of values, such as re-labelling categorical variables.
+License: GPL-3
+Imports:
+Suggests: testthat
+VignetteBuilder: knitr
+Encoding: UTF-8
+RoxygenNote: 7.1.1
