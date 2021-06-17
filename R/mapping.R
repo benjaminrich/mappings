@@ -50,10 +50,13 @@
 #' inverse(sex.mapping)
 #' inverse(sex.mapping)(c("Female", "Male", NA))
 #' 
-#' race.mapping <- mapping(c(1, 2, 5), c("WHITE", "BLACK OR AFRICAN AMERICAN", "AMERICAN INDIAN OR ALASKA NATIVE"))
+#' race.mapping <- mapping(c(
+#'       "1"="WHITE",
+#'       "2"="BLACK OR AFRICAN AMERICAN",
+#'       "5"="AMERICAN INDIAN OR ALASKA NATIVE"))
 #' race.mapping(1:5)
 #' 
-#' @keyword utilities
+#' @importFrom stats setNames
 #' @export
 mapping <- function(from, to, na=NA, ch.as.fact=TRUE) {
   if (missing(to)) {
@@ -151,8 +154,10 @@ inverse <- function(x) {
 #' @param file If `text` is missing, read from this file instead.
 #' @param sep Character used as column separator.
 #' @param flip If \code{TRUE}, flip the column order to To, From (default \code{FALSE}).
-#' @param convert.na
-#' @param numericWherePossible
+#' @param convert.na If \code{TRUE}, the string \code{"NA"} will be converted to
+#' \code{NA}.
+#' @param numericWherePossible If \code{TRUE}, the mapping will return a
+#' \code{numeric} vector if the codomain contains only numbers. 
 #' @param ... Further arguments passed to \code{\link{mapping}}.
 #' @examples
 #' f <- text2mapping("
@@ -161,8 +166,9 @@ inverse <- function(x) {
 #' H | High
 #' ")
 #' f(warpbreaks$tension)
+#' @importFrom utils read.table
 #' @export
-text2mapping <- function(text, file=NULL, sep="|", flip=FALSE, convert.na=TRUE, numericWherePossible=T, ...) {
+text2mapping <- function(text, file=NULL, sep="|", flip=FALSE, convert.na=TRUE, numericWherePossible=TRUE, ...) {
   if (missing(text)) {
     x <- read.table(sep=sep, file=file, colClasses="character", header=FALSE)
   } else {
@@ -211,13 +217,13 @@ print.mapping <- function(x, ...) {
   invisible(x)
 }
 
-#' Apply a Mapping
+#' Re-map a variable
 #'
 #' @param x The values to apply the \code{\link{mapping}} to.
 #' @param ... Passed to \code{\link{mapping}}.
 #' @return The values returned by \code{\link{mapping}}.
 #' @export
-amapping <- function(x, ...) {
+remap <- function(x, ...) {
   mapping(...)(x)
 }
 
@@ -243,6 +249,7 @@ cf <- function(x, ..., sep=";") {
     if (!all(sapply(args, length) == length(x))) {
       stop("Elements of a compound value must have the same length")
     }
+    nmissing <- function(x) { sum(is.na(x)) }
     if (any(is.na(x)) || !all(sapply(args, nmissing) == 0)) {
       warning("One or more arguments contains missing values. 'NA' will be treated as a distict value when forming the compound value.")
     }

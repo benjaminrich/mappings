@@ -59,7 +59,10 @@ sex.mapping(c(0, 1, NA, 0, 1, 1, 0))
 inverse(sex.mapping)
 inverse(sex.mapping)(c("Female", "Male", NA))
 
-race.mapping <- mapping(c(1, 2, 5), c("WHITE", "BLACK OR AFRICAN AMERICAN", "AMERICAN INDIAN OR ALASKA NATIVE"))
+race.mapping <- mapping(c(
+      "1"="WHITE",
+      "2"="BLACK OR AFRICAN AMERICAN",
+      "5"="AMERICAN INDIAN OR ALASKA NATIVE"))
 race.mapping(1:5)
 
 }

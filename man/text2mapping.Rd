@@ -10,7 +10,7 @@ text2mapping(
   sep = "|",
   flip = FALSE,
   convert.na = TRUE,
-  numericWherePossible = T,
+  numericWherePossible = TRUE,
   ...
 )
 }
@@ -22,6 +22,12 @@ text2mapping(
 \item{sep}{Character used as column separator.}
 
 \item{flip}{If \code{TRUE}, flip the column order to To, From (default \code{FALSE}).}
+
+\item{convert.na}{If \code{TRUE}, the string \code{"NA"} will be converted to
+\code{NA}.}
+
+\item{numericWherePossible}{If \code{TRUE}, the mapping will return a
+\code{numeric} vector if the codomain contains only numbers.}
 
 \item{...}{Further arguments passed to \code{\link{mapping}}.}
 }

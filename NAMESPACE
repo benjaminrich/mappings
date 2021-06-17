@@ -2,10 +2,12 @@
 
 S3method(as.data.frame,mapping)
 S3method(print,mapping)
-export(amapping)
 export(cf)
 export(codomain)
 export(domain)
 export(inverse)
 export(mapping)
+export(remap)
 export(text2mapping)
+importFrom(stats,setNames)
+importFrom(utils,read.table)

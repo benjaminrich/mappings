@@ -1,5 +1,3 @@
-context("mapping")
-
 test_that("from is matched as a string", {
   f <- mapping("1", "A", ch.as.fact=FALSE)
   expect_equal(f(1), "A")
