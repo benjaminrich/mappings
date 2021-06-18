@@ -7,6 +7,10 @@ This is the first submission of `mappings` to CRAN.
 * Local:
   - Windows 10, R 4.1.0 (x86_64-w64-mingw32/x64 (64-bit))
   - Ubuntu Linux 20.04.2 LTS, R 4.1.0 (x86_64-pc-linux-gnu)
+* win-builder:
+  - R Under development (unstable) (2021-06-16 r80504):
+    - 1 NOTE:
+      * New submission
 * R-hub builder (https://builder.r-hub.io)
   - Windows Server 2008 R2 SP1, R-devel, 32/64 bit
     - Produced an error unrelated to my package:
