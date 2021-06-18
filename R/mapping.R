@@ -145,6 +145,9 @@ codomain <- function(x) { attr(x, "codomain") }
 #' sex.inverse.mapping(c(0, 0, 1, 0))
 #' @export
 inverse <- function(x) { 
+  if (is.null(attr(x, "inverse"))) {
+    stop("This mapping is not invertable")
+  }
   structure(attr(x, "inverse"), class="mapping", domain=codomain(x), codomain=domain(x))
 }
 
@@ -217,17 +220,44 @@ print.mapping <- function(x, ...) {
   invisible(x)
 }
 
+#' Mapping from continuous to categorical
+#'
+#' @param ... Passed to \code{\link[base]{cut}}.
+#' @param to Passed to \code{\link{mapping}}.
+#' @param na Passed to \code{\link{mapping}}.
+#' @param ch.as.fact Passed to \code{\link{mapping}}.
+#' @return A function that cuts a numeric vector and maps the result.
+#' @examples
+#' x <- c(0, 10, 20, 30, Inf)
+#' m <- cut_mapping(x, right=FALSE,
+#'     to=c("0 to <10", "10 to <20", "20 to <30", ">= 30"))
+#' print(m)
+#' m(c(5, 27, 3, 10, 99))
+#' @export
+cut_mapping <- function(..., to=NULL, na=NA, ch.as.fact=TRUE) {
+  l <- levels(cut(numeric(0), ...))
+  if (is.null(to)) to <- l
+  m <- mapping(levels(cut(numeric(0), ...)), to=to, na=na, ch.as.fact=ch.as.fact)
+  fn <- function(x) m(cut(x, ...))
+  structure(fn, class="mapping", domain=domain(m), codomain=codomain(m))
+}
+
 #' Re-map a variable
+#'
+#' Apply a mapping to a vector directly. The mapping is temporary and not saved.
 #'
 #' @param x The values to apply the \code{\link{mapping}} to.
 #' @param ... Passed to \code{\link{mapping}}.
 #' @return The values returned by \code{\link{mapping}}.
+#' @examples
+#' x <- c("A", "B", "A")
+#' remap(x, c(A=0, B=1))
 #' @export
 remap <- function(x, ...) {
   mapping(...)(x)
 }
 
-#' Construct a Factor From One or More Vectors
+#' Construct a factor from one or more vectors
 #'
 #' A \code{factor} is constructed from one or more atomic vectors.  If more than
 #' one atomic vector is supplied, then a compound value is constructed by
@@ -242,6 +272,10 @@ remap <- function(x, ...) {
 #' @return A \code{factor}.
 #'
 #' @examples
+#' x <- c("A", "B", "A")
+#' y <- c(2, 5, 7)
+#' cf(x, y)
+#' mapping(cf(x, y), c("X", "Y", "Z"))
 #' @export
 cf <- function(x, ..., sep=";") {
   args <- list(...)

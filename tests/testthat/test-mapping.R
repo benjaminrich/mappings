@@ -210,4 +210,14 @@ test_that("text2mapping passes ... to mapping", {
   expect_equal(f(c(NA, "B", "B", "C", "A", "D")), c(NA, "Y", "Y", "Z", "X", NA))
 })
 
+test_that("cut_mapping works", {
+  x <- c(0, 10, 20, 30, Inf)
+  m <- cut_mapping(x, right=FALSE,
+      to=c("0 to <10", "10 to <20", "20 to <30", ">= 30"))
+  expect_equal(
+    m(c(5, 27, 3, 10, 99)),
+    factor(c("0 to <10", "20 to <30", "0 to <10", "10 to <20", ">= 30"),
+      levels=c("0 to <10", "10 to <20", "20 to <30", ">= 30")))
+})
+
 # vim: ts=2 sw=2 et

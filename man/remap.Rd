@@ -15,5 +15,9 @@ remap(x, ...)
 The values returned by \code{\link{mapping}}.
 }
 \description{
-Re-map a variable
+Apply a mapping to a vector directly. The mapping is temporary and not saved.
+}
+\examples{
+x <- c("A", "B", "A")
+remap(x, c(A=0, B=1))
 }

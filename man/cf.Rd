@@ -2,7 +2,7 @@
 % Please edit documentation in R/mapping.R
 \name{cf}
 \alias{cf}
-\title{Construct a Factor From One or More Vectors}
+\title{Construct a factor from one or more vectors}
 \usage{
 cf(x, ..., sep = ";")
 }
@@ -22,4 +22,10 @@ A \code{factor} is constructed from one or more atomic vectors.  If more than
 one atomic vector is supplied, then a compound value is constructed by
 concatenating the values together. The order of the levels is the natural
 order in which the values appear.
+}
+\examples{
+x <- c("A", "B", "A")
+y <- c(2, 5, 7)
+cf(x, y)
+mapping(cf(x, y), c("X", "Y", "Z"))
 }
