@@ -91,6 +91,14 @@ test_that("mapping works with NA", {
   expect_equal(f(c(NA, 3, NA, 1, 4, 3, 2, 5)), c(9, 7, 9, 5, 8, 7, 6, NA))
 })
 
+test_that("reordering factor levels works", {
+  x <- c("C", "B", "A")
+  f <- mapping(x)
+  expect_equal(
+    f(factor(x)),
+    factor(c("C", "B", "A"), levels=c("C", "B", "A")))
+})
+
 test_that("inverse mapping works", {
   f <- mapping(c("A"="X", "B"="Y", "C"="Z"))
   expect_equal(

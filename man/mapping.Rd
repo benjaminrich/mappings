@@ -11,7 +11,8 @@ mapping(from, to, na = NA, ch.as.fact = TRUE)
 
 \item{to}{A vector of the same length as \code{from}. If omitted, then the
 \code{names} of \code{from} are taken as the domain, and the values as the
-values to map to.}
+values to map to. If \code{from} has no \code{names}, then \code{to} is equal to
+\code{from} (useful for re-ordering \code{factor} levels).}
 
 \item{na}{An alternative way to specify the value that \code{NA} maps to.
 Ignored if from contains \code{NA}.}

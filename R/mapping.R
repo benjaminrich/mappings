@@ -6,7 +6,8 @@
 #' @param from A vector.  This is the domain of the function.
 #' @param to A vector of the same length as \code{from}. If omitted, then the
 #' \code{names} of \code{from} are taken as the domain, and the values as the
-#' values to map to.
+#' values to map to. If \code{from} has no \code{names}, then \code{to} is equal to
+#' \code{from} (useful for re-ordering \code{factor} levels).
 #' @param na An alternative way to specify the value that \code{NA} maps to.
 #' Ignored if from contains \code{NA}.
 #' @param ch.as.fact A logical.  Should the mapping return a \code{factor}
@@ -61,7 +62,9 @@
 mapping <- function(from, to, na=NA, ch.as.fact=TRUE) {
   if (missing(to)) {
     x <- from
-    from <- names(x)
+    if (!is.null(names(x))) {
+      from <- names(x)
+    }
     to <- setNames(x, NULL)
     if (!is.na(na)) {
       from <- c(from, NA)
