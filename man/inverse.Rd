@@ -7,7 +7,7 @@
 inverse(x)
 }
 \arguments{
-\item{x}{A \code{\link{mapping}}}
+\item{x}{A \code{\link{mapping}}.}
 }
 \value{
 The inverse \code{\link{mapping}}.

@@ -17,7 +17,7 @@ text2mapping(
 \arguments{
 \item{text}{A multi-line string specifying a mapping with 2 columns (see examples).}
 
-\item{file}{If `text` is missing, read from this file instead.}
+\item{file}{If \code{text} is missing, read from this file instead.}
 
 \item{sep}{Character used as column separator.}
 
@@ -27,9 +27,12 @@ text2mapping(
 \code{NA}.}
 
 \item{numericWherePossible}{If \code{TRUE}, the mapping will return a
-\code{numeric} vector if the codomain contains only numbers.}
+\code{\link[base:numeric]{base::numeric}} vector if the codomain contains only numbers.}
 
-\item{...}{Further arguments passed to \code{\link{mapping}}.}
+\item{...}{Further arguments passed to \code{\link[=mapping]{mapping()}}.}
+}
+\value{
+A \code{\link{mapping}}.
 }
 \description{
 Convenient shorthand for specifying mappings with text strings

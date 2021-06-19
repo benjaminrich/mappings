@@ -7,12 +7,12 @@
 \method{as.data.frame}{mapping}(x, ...)
 }
 \arguments{
-\item{x}{A \code{\link{mapping}}}
+\item{x}{A \code{\link{mapping}}.}
 
-\item{...}{Ignored}
+\item{...}{Ignored.}
 }
 \value{
-A \code{data.frame}.
+A \code{\link[base:data.frame]{base::data.frame}}.
 }
 \description{
 The resulting \code{data.frame} has 2 columns: \code{mapsfrom}, and \code{mapsto}.

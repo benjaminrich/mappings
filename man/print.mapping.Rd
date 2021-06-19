@@ -7,9 +7,9 @@
 \method{print}{mapping}(x, ...)
 }
 \arguments{
-\item{x}{A \code{\link{mapping}}}
+\item{x}{\code{\link{mapping}}.}
 
-\item{...}{Ignored}
+\item{...}{Ignored.}
 }
 \value{
 Returns \code{x} invisibly.

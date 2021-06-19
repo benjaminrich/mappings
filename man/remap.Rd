@@ -9,10 +9,10 @@ remap(x, ...)
 \arguments{
 \item{x}{The values to apply the \code{\link{mapping}} to.}
 
-\item{...}{Passed to \code{\link{mapping}}.}
+\item{...}{Passed to \code{\link[=mapping]{mapping()}}.}
 }
 \value{
-The values returned by \code{\link{mapping}}.
+The values returned by calling the \code{\link{mapping}} function.
 }
 \description{
 Apply a mapping to a vector directly. The mapping is temporary and not saved.

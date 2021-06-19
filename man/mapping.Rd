@@ -12,18 +12,17 @@ mapping(from, to, na = NA, ch.as.fact = TRUE)
 \item{to}{A vector of the same length as \code{from}. If omitted, then the
 \code{names} of \code{from} are taken as the domain, and the values as the
 values to map to. If \code{from} has no \code{names}, then \code{to} is equal to
-\code{from} (useful for re-ordering \code{factor} levels).}
+\code{from} (useful for re-ordering \code{\link[base:factor]{base::factor}} levels).}
 
 \item{na}{An alternative way to specify the value that \code{NA} maps to.
 Ignored if from contains \code{NA}.}
 
-\item{ch.as.fact}{A logical.  Should the mapping return a \code{factor}
-instead of \code{character}?}
+\item{ch.as.fact}{A logical.  Should the mapping return a \code{\link[base:factor]{base::factor}}
+instead of \code{\link[base:character]{base::character}}?}
 }
 \value{
-A function that translates from \code{from} to \code{to}.  The
-function also has a attribute \code{"inverse"} which is a function
-that performs the inverse mapping.
+A function that translates from \code{from} to \code{to}.  The function also
+has an \code{\link{inverse}} which is a function that performs the inverse mapping.
 }
 \description{
 This function returns a function that does a simple mapping from one set of value to another.
@@ -66,4 +65,12 @@ race.mapping <- mapping(c(
       "5"="AMERICAN INDIAN OR ALASKA NATIVE"))
 race.mapping(1:5)
 
+}
+\seealso{
+\code{\link[=inverse]{inverse()}},
+\code{\link[=codomain]{codomain()}},
+\code{\link[=domain]{domain()}},
+\code{\link[=remap]{remap()}},
+\code{\link[=text2mapping]{text2mapping()}},
+\code{\link[=cut_mapping]{cut_mapping()}}
 }

@@ -10,8 +10,21 @@ domain(x)
 codomain(x)
 }
 \arguments{
-\item{x}{A \code{\link{mapping}}}
+\item{x}{A \code{\link{mapping}}.}
+}
+\value{
+x A vector of the same type as we supplied when the
+\code{\link{mapping}} was created.
 }
 \description{
 Domain and codomain of a mapping.
+}
+\note{
+These aren't the true domain and codomain in the mathematical sense; both
+can contain duplicates.
+}
+\examples{
+sex.mapping <- mapping(c("Female", "F", "Male", "M"), c(0, 0, 1, 1))
+domain(sex.mapping)
+codomain(sex.mapping)
 }

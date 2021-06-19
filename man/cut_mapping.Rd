@@ -7,16 +7,16 @@
 cut_mapping(..., to = NULL, na = NA, ch.as.fact = TRUE)
 }
 \arguments{
-\item{...}{Passed to \code{\link[base]{cut}}.}
+\item{...}{Passed to \code{\link[base:cut]{base::cut()}}.}
 
-\item{to}{Passed to \code{\link{mapping}}.}
+\item{to}{Passed to \code{\link[=mapping]{mapping()}}.}
 
-\item{na}{Passed to \code{\link{mapping}}.}
+\item{na}{Passed to \code{\link[=mapping]{mapping()}}.}
 
-\item{ch.as.fact}{Passed to \code{\link{mapping}}.}
+\item{ch.as.fact}{Passed to \code{\link[=mapping]{mapping()}}.}
 }
 \value{
-A function that cuts a numeric vector and maps the result.
+A function that cuts a \code{\link[base:numeric]{base::numeric}} vector and maps the result.
 }
 \description{
 Mapping from continuous to categorical

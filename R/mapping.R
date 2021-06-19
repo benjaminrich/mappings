@@ -4,34 +4,41 @@
 #' It is a function-generating function.
 #'
 #' @param from A vector.  This is the domain of the function.
-#' @param to A vector of the same length as \code{from}. If omitted, then the
-#' \code{names} of \code{from} are taken as the domain, and the values as the
-#' values to map to. If \code{from} has no \code{names}, then \code{to} is equal to
-#' \code{from} (useful for re-ordering \code{factor} levels).
-#' @param na An alternative way to specify the value that \code{NA} maps to.
-#' Ignored if from contains \code{NA}.
-#' @param ch.as.fact A logical.  Should the mapping return a \code{factor}
-#' instead of \code{character}?
+#' @param to A vector of the same length as `from`. If omitted, then the
+#' `names` of `from` are taken as the domain, and the values as the
+#' values to map to. If `from` has no `names`, then `to` is equal to
+#' `from` (useful for re-ordering [`base::factor`] levels).
+#' @param na An alternative way to specify the value that `NA` maps to.
+#' Ignored if from contains `NA`.
+#' @param ch.as.fact A logical.  Should the mapping return a [`base::factor`]
+#' instead of [`base::character`]?
 #'
 #' @details
 #' 
 #' This function returns a function.  When called with a vector
-#' argument \code{x}, this function will return a vector \code{y} of
-#' the same length as \code{x} and such that each element \code{y[i]}
-#' is equal to \code{to[j]} where \code{j} is the smallest integer such
-#' that \code{from[j] == x[i]}, and \code{NA} if no such \code{j}
+#' argument `x`, this function will return a vector `y` of
+#' the same length as `x` and such that each element `y[i]`
+#' is equal to `to[j]` where `j` is the smallest integer such
+#' that `from[j] == x[i]`, and `NA` if no such `j`
 #' exists.
 #'
-#' Note: \code{from} will always be matched as a string, even if it is numeric.
-#' So, \code{mapping(1, "A")} and \code{mapping("1", "A")} are the same, and
-#' both functions will return \code{"A"} when called with either \code{1} or
-#' \code{"1"}.
+#' Note: `from` will always be matched as a string, even if it is numeric.
+#' So, `mapping(1, "A")` and `mapping("1", "A")` are the same, and
+#' both functions will return `"A"` when called with either `1` or
+#' `"1"`.
 #' 
 #' @return
 #' 
-#' A function that translates from \code{from} to \code{to}.  The
-#' function also has a attribute \code{"inverse"} which is a function
-#' that performs the inverse mapping.
+#' A function that translates from `from` to `to`.  The function also
+#' has an [`inverse`] which is a function that performs the inverse mapping.
+#' 
+#' @seealso
+#' [inverse()],
+#' [codomain()],
+#' [domain()],
+#' [remap()],
+#' [text2mapping()],
+#' [cut_mapping()]
 #' 
 #' @examples
 #' 
@@ -128,7 +135,17 @@ mapping <- function(from, to, na=NA, ch.as.fact=TRUE) {
 }
 
 #' Domain and codomain of a mapping.
-#' @param x A \code{\link{mapping}}
+#'
+#' @param x A [`mapping`].
+#' @return x A vector of the same type as we supplied when the
+#' [`mapping`] was created.
+#' @note
+#' These aren't the true domain and codomain in the mathematical sense; both
+#' can contain duplicates.
+#' @examples
+#' sex.mapping <- mapping(c("Female", "F", "Male", "M"), c(0, 0, 1, 1))
+#' domain(sex.mapping)
+#' codomain(sex.mapping)
 #' @export
 domain <- function(x) { attr(x, "domain") }
 
@@ -138,10 +155,10 @@ codomain <- function(x) { attr(x, "codomain") }
 
 #' Inverse of a mapping
 #'
-#' Given a \code{\link{mapping}} \code{x}, return the inverse mapping.
+#' Given a [`mapping`] `x`, return the inverse mapping.
 #'
-#' @param x A \code{\link{mapping}}
-#' @return The inverse \code{\link{mapping}}.
+#' @param x A [`mapping`].
+#' @return The inverse [`mapping`].
 #' @examples
 #' sex.mapping <- mapping(c("Female", "F", "Male", "M"), c(0, 0, 1, 1))
 #' sex.inverse.mapping <- inverse(sex.mapping)
@@ -159,12 +176,13 @@ inverse <- function(x) {
 #' @param text A multi-line string specifying a mapping with 2 columns (see examples).
 #' @param file If `text` is missing, read from this file instead.
 #' @param sep Character used as column separator.
-#' @param flip If \code{TRUE}, flip the column order to To, From (default \code{FALSE}).
-#' @param convert.na If \code{TRUE}, the string \code{"NA"} will be converted to
-#' \code{NA}.
-#' @param numericWherePossible If \code{TRUE}, the mapping will return a
-#' \code{numeric} vector if the codomain contains only numbers. 
-#' @param ... Further arguments passed to \code{\link{mapping}}.
+#' @param flip If `TRUE`, flip the column order to To, From (default `FALSE`).
+#' @param convert.na If `TRUE`, the string `"NA"` will be converted to
+#' `NA`.
+#' @param numericWherePossible If `TRUE`, the mapping will return a
+#' [`base::numeric`] vector if the codomain contains only numbers. 
+#' @param ... Further arguments passed to [mapping()].
+#' @return A [`mapping`].
 #' @examples
 #' f <- text2mapping("
 #' L | Low
@@ -201,21 +219,21 @@ text2mapping <- function(text, file=NULL, sep="|", flip=FALSE, convert.na=TRUE, 
   mapping(from=x[[1]], to=x[[2]], ...)
 }
 
-#' Convert a mapping to \code{data.frame}
+#' Convert a mapping to `data.frame`
 #'
-#' The resulting \code{data.frame} has 2 columns: \code{mapsfrom}, and \code{mapsto}.
+#' The resulting `data.frame` has 2 columns: `mapsfrom`, and `mapsto`.
 #'
-#' @param x A \code{\link{mapping}}
-#' @param ... Ignored
-#' @return A \code{data.frame}.
+#' @param x A [`mapping`].
+#' @param ... Ignored.
+#' @return A [`base::data.frame`].
 #' @export
 as.data.frame.mapping <- function(x, ...) { data.frame(mapsfrom=domain(x), mapsto=codomain(x)) }
 
 #' Print a mapping
 #'
-#' @param x A \code{\link{mapping}}
-#' @param ... Ignored
-#' @return Returns \code{x} invisibly.
+#' @param x [`mapping`].
+#' @param ... Ignored.
+#' @return Returns `x` invisibly.
 #' @export
 print.mapping <- function(x, ...) {
   cat("Mapping\n")
@@ -225,11 +243,11 @@ print.mapping <- function(x, ...) {
 
 #' Mapping from continuous to categorical
 #'
-#' @param ... Passed to \code{\link[base]{cut}}.
-#' @param to Passed to \code{\link{mapping}}.
-#' @param na Passed to \code{\link{mapping}}.
-#' @param ch.as.fact Passed to \code{\link{mapping}}.
-#' @return A function that cuts a numeric vector and maps the result.
+#' @param ... Passed to [base::cut()].
+#' @param to Passed to [mapping()].
+#' @param na Passed to [mapping()].
+#' @param ch.as.fact Passed to [mapping()].
+#' @return A function that cuts a [`base::numeric`] vector and maps the result.
 #' @examples
 #' x <- c(0, 10, 20, 30, Inf)
 #' m <- cut_mapping(x, right=FALSE,
@@ -249,9 +267,9 @@ cut_mapping <- function(..., to=NULL, na=NA, ch.as.fact=TRUE) {
 #'
 #' Apply a mapping to a vector directly. The mapping is temporary and not saved.
 #'
-#' @param x The values to apply the \code{\link{mapping}} to.
-#' @param ... Passed to \code{\link{mapping}}.
-#' @return The values returned by \code{\link{mapping}}.
+#' @param x The values to apply the [`mapping`] to.
+#' @param ... Passed to [mapping()].
+#' @return The values returned by calling the [`mapping`] function.
 #' @examples
 #' x <- c("A", "B", "A")
 #' remap(x, c(A=0, B=1))
@@ -260,19 +278,19 @@ remap <- function(x, ...) {
   mapping(...)(x)
 }
 
-#' Construct a factor from one or more vectors
+#' Construct a `factor` from one or more vectors
 #'
-#' A \code{factor} is constructed from one or more atomic vectors.  If more than
+#' A [`base::factor`] is constructed from one or more atomic vectors.  If more than
 #' one atomic vector is supplied, then a compound value is constructed by
 #' concatenating the values together. The order of the levels is the natural
 #' order in which the values appear.
 #
 #' @param x An atomic vector.
 #' @param ... Additional atomic vectors (optional).
-#' @param sep A character to use as a separator when forming a compound value
+#' @param sep A [`base::character`] to use as a separator when forming a compound value
 #' (default ';').
 #'
-#' @return A \code{factor}.
+#' @return A [`base::factor`].
 #'
 #' @examples
 #' x <- c("A", "B", "A")
