@@ -1,7 +1,7 @@
 Package: mappings
 Type: Package
 Version: 0.1
-Date: 2021-06-18
+Date: 2021-06-21
 Title: Functions for Transforming Categorical Variables
 Authors@R: person("Benjamin", "Rich", role=c("aut", "cre", "cph"), email="mail@benjaminrich.net")
 URL: https://github.com/benjaminrich/mappings
