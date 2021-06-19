@@ -11,14 +11,14 @@ cf(x, ..., sep = ";")
 
 \item{...}{Additional atomic vectors (optional).}
 
-\item{sep}{A \code{\link[base:character]{base::character}} to use as a separator when forming a compound value
+\item{sep}{A \code{character} to use as a separator when forming a compound value
 (default ';').}
 }
 \value{
-A \code{\link[base:factor]{base::factor}}.
+A \code{factor}.
 }
 \description{
-A \code{\link[base:factor]{base::factor}} is constructed from one or more atomic vectors.  If more than
+A \code{factor} is constructed from one or more atomic vectors.  If more than
 one atomic vector is supplied, then a compound value is constructed by
 concatenating the values together. The order of the levels is the natural
 order in which the values appear.

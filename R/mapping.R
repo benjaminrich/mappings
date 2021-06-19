@@ -7,11 +7,11 @@
 #' @param to A vector of the same length as `from`. If omitted, then the
 #' `names` of `from` are taken as the domain, and the values as the
 #' values to map to. If `from` has no `names`, then `to` is equal to
-#' `from` (useful for re-ordering [`base::factor`] levels).
+#' `from` (useful for re-ordering `factor` levels).
 #' @param na An alternative way to specify the value that `NA` maps to.
 #' Ignored if from contains `NA`.
-#' @param ch.as.fact A logical.  Should the mapping return a [`base::factor`]
-#' instead of [`base::character`]?
+#' @param ch.as.fact A logical.  Should the mapping return a `factor`
+#' instead of `character`?
 #'
 #' @details
 #' 
@@ -180,7 +180,7 @@ inverse <- function(x) {
 #' @param convert.na If `TRUE`, the string `"NA"` will be converted to
 #' `NA`.
 #' @param numericWherePossible If `TRUE`, the mapping will return a
-#' [`base::numeric`] vector if the codomain contains only numbers. 
+#' `numeric` vector if the codomain contains only numbers. 
 #' @param ... Further arguments passed to [mapping()].
 #' @return A [`mapping`].
 #' @examples
@@ -225,7 +225,7 @@ text2mapping <- function(text, file=NULL, sep="|", flip=FALSE, convert.na=TRUE, 
 #'
 #' @param x A [`mapping`].
 #' @param ... Ignored.
-#' @return A [`base::data.frame`].
+#' @return A `data.frame`.
 #' @export
 as.data.frame.mapping <- function(x, ...) { data.frame(mapsfrom=domain(x), mapsto=codomain(x)) }
 
@@ -243,11 +243,11 @@ print.mapping <- function(x, ...) {
 
 #' Mapping from continuous to categorical
 #'
-#' @param ... Passed to [base::cut()].
+#' @param ... Passed to [`cut()`][base::cut()].
 #' @param to Passed to [mapping()].
 #' @param na Passed to [mapping()].
 #' @param ch.as.fact Passed to [mapping()].
-#' @return A function that cuts a [`base::numeric`] vector and maps the result.
+#' @return A function that cuts a `numeric` vector and maps the result.
 #' @examples
 #' x <- c(0, 10, 20, 30, Inf)
 #' m <- cut_mapping(x, right=FALSE,
@@ -280,17 +280,17 @@ remap <- function(x, ...) {
 
 #' Construct a `factor` from one or more vectors
 #'
-#' A [`base::factor`] is constructed from one or more atomic vectors.  If more than
+#' A `factor` is constructed from one or more atomic vectors.  If more than
 #' one atomic vector is supplied, then a compound value is constructed by
 #' concatenating the values together. The order of the levels is the natural
 #' order in which the values appear.
 #
 #' @param x An atomic vector.
 #' @param ... Additional atomic vectors (optional).
-#' @param sep A [`base::character`] to use as a separator when forming a compound value
+#' @param sep A `character` to use as a separator when forming a compound value
 #' (default ';').
 #'
-#' @return A [`base::factor`].
+#' @return A `factor`.
 #'
 #' @examples
 #' x <- c("A", "B", "A")

@@ -12,7 +12,7 @@
 \item{...}{Ignored.}
 }
 \value{
-A \code{\link[base:data.frame]{base::data.frame}}.
+A \code{data.frame}.
 }
 \description{
 The resulting \code{data.frame} has 2 columns: \code{mapsfrom}, and \code{mapsto}.

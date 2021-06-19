@@ -27,7 +27,7 @@ text2mapping(
 \code{NA}.}
 
 \item{numericWherePossible}{If \code{TRUE}, the mapping will return a
-\code{\link[base:numeric]{base::numeric}} vector if the codomain contains only numbers.}
+\code{numeric} vector if the codomain contains only numbers.}
 
 \item{...}{Further arguments passed to \code{\link[=mapping]{mapping()}}.}
 }
