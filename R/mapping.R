@@ -263,6 +263,63 @@ cut_mapping <- function(..., to=NULL, na=NA, ch.as.fact=TRUE) {
   structure(fn, class="mapping", domain=domain(m), codomain=codomain(m))
 }
 
+#' A mapping that adds a prefix and/or suffix
+#'
+#' @param prefix,suffix Character strings.
+#' @return A `mapping` function.
+#' @examples
+#'
+#' # The objective is to turn a numeric vector into a factor such that
+#' # the levels preserve the numeric order but contain the suffix "mg"
+#' # (i.e., so that 2 becomes "2 mg" for instance)
+#' x <- c(1, 2, 1, 10, 3, 2, 2, 1)
+#'
+#' # The following does not produce the levels in the desired numeric order
+#' # (because alphabetical ordering places "10" before "2")
+#' factor(paste(x, "mg"))
+#'
+#' # The following works, but takes 2 lines of code and requires a variable
+#' # assignment
+#' y <- factor(x)
+#' levels(y) <- paste(levels(y), "mg")
+#' y
+#'
+#' # This does the same thing with one line of code and no assignment
+#' paste_mapping(, " mg")(x)
+#'
+#' # -----
+#'
+#' # In this example, you start with a factor, and want to preserve its ordering
+#' x <- factor(c("Treatment", "Placebo"), levels=c("Treatment", "Placebo"))
+#'
+#' # Again, this won't work as desired
+#' factor(paste("Randomized to", x, "Group"))
+#'
+#' # But this will
+#' paste_mapping("Randomized to ", " Group")(x)
+#' @export
+paste_mapping <- function(prefix=NULL, suffix=NULL) {
+  fn <- paste0
+  m <- function(x) {
+    x <- as.factor(x)
+    if (!is.null(prefix) & !is.null(suffix)) {
+      levels(x) <- fn(prefix, levels(x), suffix)
+    } else if (!is.null(prefix)) {
+      levels(x) <- fn(prefix, levels(x))
+    } else if (!is.null(suffix)) {
+      levels(x) <- fn(levels(x), suffix)
+    }
+    x
+  }
+  structure(m, class="mapping", domain="x", codomain=m("x"))
+}
+
+#levels_paste <- function(x, prefix="", suffix="", fn=paste0) {
+#  x <- as.factor(x)
+#  levels(x) <- fn(prefix, levels(x), suffix)
+#  x
+#}
+
 #' Re-map a variable
 #'
 #' Apply a mapping to a vector directly. The mapping is temporary and not saved.
