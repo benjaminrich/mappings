@@ -194,9 +194,9 @@ inverse <- function(x) {
 #' @export
 text2mapping <- function(text, file=NULL, sep="|", flip=FALSE, convert.na=TRUE, numericWherePossible=TRUE, ...) {
   if (missing(text)) {
-    x <- read.table(sep=sep, file=file, colClasses="character", header=FALSE)
+    x <- read.table(sep=sep, file=file, colClasses="character", header=FALSE, quote="")
   } else {
-    x <- read.table(sep=sep, text=trimws(text), colClasses="character", header=FALSE)
+    x <- read.table(sep=sep, text=trimws(text), colClasses="character", header=FALSE, quote="")
   }
   x <- x[, sapply(x, function(y) !all(is.na(y) | trimws(y) == "")), drop=FALSE] # Remove empty
   if (ncol(x) == 1) {

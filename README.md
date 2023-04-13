@@ -1,6 +1,7 @@
 # mappings
 
-[![Travis-CI Build Status](https://travis-ci.org/benjaminrich/mappings.svg?branch=master)](https://travis-ci.org/benjaminrich/mappings)
+[![CRAN\_Release\_Badge](https://www.r-pkg.org/badges/version-ago/mappings)](https://CRAN.R-project.org/package=mappings)
+[![CRAN\_Download\_Badge](https://cranlogs.r-pkg.org/badges/mappings)](https://CRAN.R-project.org/package=mappings)
 
 An R package for mapping between different sets of categorical values.
 
