@@ -1,17 +1,17 @@
 Package: mappings
 Type: Package
-Version: 0.2
-Date: 2023-04-13
+Version: 1.0.0
+Date: 2024-06-19
 Title: Functions for Transforming Categorical Variables
 Authors@R: person("Benjamin", "Rich", role=c("aut", "cre", "cph"), email="mail@benjaminrich.net")
 URL: https://github.com/benjaminrich/mappings
 BugReports: https://github.com/benjaminrich/mappings/issues
 Description: Easily create functions to map between different sets of values,
-  such as for re-labelling categorical variables.
+  such as for re-labeling categorical variables.
 License: GPL-3
 Imports:
 Suggests: testthat
 Language: en-US
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1

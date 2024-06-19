@@ -2,9 +2,12 @@
 % Please edit documentation in R/mapping.R
 \name{mapping}
 \alias{mapping}
+\alias{pmapping}
 \title{Generate a Mapping Function}
 \usage{
-mapping(from, to, na = NA, ch.as.fact = TRUE)
+mapping(from, to, na = NA, ch.as.fact = TRUE, unmapped = NA)
+
+pmapping(..., unmapped = I)
 }
 \arguments{
 \item{from}{A vector.  This is the domain of the function.}
@@ -15,10 +18,18 @@ values to map to. If \code{from} has no \code{names}, then \code{to} is equal to
 \code{from} (useful for re-ordering \code{factor} levels).}
 
 \item{na}{An alternative way to specify the value that \code{NA} maps to.
-Ignored if from contains \code{NA}.}
+Ignored if \code{from} contains \code{NA}.}
 
 \item{ch.as.fact}{A logical.  Should the mapping return a \code{factor}
 instead of \code{character}?}
+
+\item{unmapped}{This is a fallback for the case when a value can't be mapped
+because it doesn't match any of the elements in \code{from}. It can either be a
+single atomic value, or a function that gets applied (which could even be
+another mapping). Note that this doesn't have any effect on the \code{\link{inverse}}
+mapping (which is always based solely on \code{from} and \code{to}). Default is \code{NA}.}
+
+\item{...}{Passed to \code{mapping()}.}
 }
 \value{
 A function that translates from \code{from} to \code{to}.  The function also
@@ -33,8 +44,11 @@ This function returns a function.  When called with a vector
 argument \code{x}, this function will return a vector \code{y} of
 the same length as \code{x} and such that each element \code{y[i]}
 is equal to \code{to[j]} where \code{j} is the smallest integer such
-that \code{from[j] == x[i]}, and \code{NA} if no such \code{j}
-exists.
+that \code{from[j] == x[i]}, and the value \code{unmapped} (or, if it's a function,
+\code{unmapped(x[i])}) if no such \code{j} exists.
+
+\code{pmapping()} creates a \strong{partial mapping}, which maps certain elements while
+\emph{preserving} the rest (by making \code{unmapped=I} the default).
 
 Note: \code{from} will always be matched as a string, even if it is numeric.
 So, \code{mapping(1, "A")} and \code{mapping("1", "A")} are the same, and
@@ -64,6 +78,15 @@ race.mapping <- mapping(c(
       "2"="BLACK OR AFRICAN AMERICAN",
       "5"="AMERICAN INDIAN OR ALASKA NATIVE"))
 race.mapping(1:5)
+
+# Use of `unmapped`
+dv.mapping <- mapping("BQL", -99, unmapped=as.numeric)
+dv.mapping(c("3.1", "BQL", "2.7", "100"))
+
+# Map certain elements and preserves the rest
+x <- LETTERS[1:5]
+pmapping("B", "Z")(x)
+mapping("B", "Z", unmapped=I)(x)  # Same
 
 }
 \seealso{

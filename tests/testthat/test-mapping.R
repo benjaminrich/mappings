@@ -51,6 +51,7 @@ test_that("mapping handles factor levels correctly", {
 
 test_that("mapping works with duplicates", {
   f <- mapping(c("A"="X", "B"="Y", "C"="X"))
+
   expect_equal(
     f(c(NA, "B", "B", "C", "A", "D")),
     factor(c(NA, "Y", "Y", "X", "X", NA), levels=c("X", "Y")))
@@ -226,6 +227,93 @@ test_that("cut_mapping works", {
     m(c(5, 27, 3, 10, 99)),
     factor(c("0 to <10", "20 to <30", "0 to <10", "10 to <20", ">= 30"),
       levels=c("0 to <10", "10 to <20", "20 to <30", ">= 30")))
+})
+
+test_that("pmapping/unmapped works as expected", {
+
+  x <- LETTERS[1:5]
+
+  expect_equal(mapping(x, 1:5)(x), 1:5)
+
+  expect_equal(
+    mapping(x[2:3], 2:3)(x),
+    c(NA, 2, 3, NA, NA))
+
+  expect_equal(
+    mapping(x[2:3], 2:3, unmapped=-99)(x),
+    c(-99, 2, 3, -99, -99))
+
+  expect_equal(
+    mapping(x[2:3], 2:3, unmapped=I)(x),
+    c("A", "2", "3", "D", "E"))  # Note: conversion to character
+
+  expect_equal(
+    pmapping(x[2:3], 2:3)(x),
+    mapping(x[2:3], 2:3, unmapped=I)(x))  # Same as above
+
+  expect_equal(
+    mapping("B", "Z")(x),
+    factor(c(NA, "Z", NA, NA, NA), levels="Z"))
+
+  expect_equal(
+    mapping("B", "Z", unmapped=NA)(x),
+    mapping("B", "Z")(x))
+
+  expect_equal(
+    mapping("B", "Z", unmapped="QQQ")(x),
+    factor(c("QQQ", "Z", "QQQ", "QQQ", "QQQ"), levels=c("Z", "QQQ")))
+
+  expect_equal(
+    mapping("B", "Z", unmapped="QQQ", ch.as.fact=F)(x),
+    c("QQQ", "Z", "QQQ", "QQQ", "QQQ"))
+
+
+  expect_equal(
+    pmapping("B", "Z")(x),
+    factor(c("A", "Z", "C", "D", "E"), levels=c("Z", "A", "C", "D", "E")))
+
+  expect_equal(
+    pmapping("B", "Z", ch.as.fact=FALSE)(x),
+    c("A", "Z", "C", "D", "E"))
+
+  expect_equal(
+    mapping("B", "Z", unmapped=mapping("A", "Y"))(x),
+    factor(c("Y", "Z", NA, NA, NA), levels=c("Z", "Y")))
+
+  expect_equal(
+    pmapping(3, -99)(1:5),
+    c(1, 2, -99, 4, 5))
+
+  x <- c("3.1", "BQL", "2.7", "100")
+
+  expect_equal(
+    mapping("BQL", -99, unmapped=as.numeric)(x),
+    c(3.1, -99, 2.7, 100))
+
+  x <- c("X", "Y")
+
+  expect_equal(
+    mapping("X", "Y")(x),
+    factor(c("Y", NA), levels="Y"))
+
+  expect_equal(
+    pmapping("X", "Y")(x),
+    factor(c("Y", "Y"), levels="Y"))
+
+  x <- factor(c("X", "Y"))
+
+  expect_equal(
+    mapping("X", "Y")(x),
+    factor(c("Y", NA), levels="Y"))
+
+  expect_equal(
+    pmapping("X", "Y")(x),
+    factor(c("Y", "Y"), levels=c("Y", "X")))
+
+  expect_equal(
+    pmapping("X", "Y", ch.as.fact=FALSE)(x),
+    c("Y", "Y"))
+
 })
 
 # vim: ts=2 sw=2 et

@@ -9,9 +9,15 @@
 #' values to map to. If `from` has no `names`, then `to` is equal to
 #' `from` (useful for re-ordering `factor` levels).
 #' @param na An alternative way to specify the value that `NA` maps to.
-#' Ignored if from contains `NA`.
+#' Ignored if `from` contains `NA`.
 #' @param ch.as.fact A logical.  Should the mapping return a `factor`
 #' instead of `character`?
+#' @param unmapped This is a fallback for the case when a value can't be mapped
+#' because it doesn't match any of the elements in `from`. It can either be a
+#' single atomic value, or a function that gets applied (which could even be
+#' another mapping). Note that this doesn't have any effect on the [`inverse`]
+#' mapping (which is always based solely on `from` and `to`). Default is `NA`.
+#' @param ... Passed to `mapping()`.
 #'
 #' @details
 #' 
@@ -19,8 +25,11 @@
 #' argument `x`, this function will return a vector `y` of
 #' the same length as `x` and such that each element `y[i]`
 #' is equal to `to[j]` where `j` is the smallest integer such
-#' that `from[j] == x[i]`, and `NA` if no such `j`
-#' exists.
+#' that `from[j] == x[i]`, and the value `unmapped` (or, if it's a function,
+#' `unmapped(x[i])`) if no such `j` exists.
+#' 
+#' `pmapping()` creates a **partial mapping**, which maps certain elements while
+#' _preserving_ the rest (by making `unmapped=I` the default).
 #'
 #' Note: `from` will always be matched as a string, even if it is numeric.
 #' So, `mapping(1, "A")` and `mapping("1", "A")` are the same, and
@@ -64,9 +73,18 @@
 #'       "5"="AMERICAN INDIAN OR ALASKA NATIVE"))
 #' race.mapping(1:5)
 #' 
+#' # Use of `unmapped`
+#' dv.mapping <- mapping("BQL", -99, unmapped=as.numeric)
+#' dv.mapping(c("3.1", "BQL", "2.7", "100"))
+#'
+#' # Map certain elements and preserves the rest
+#' x <- LETTERS[1:5]
+#' pmapping("B", "Z")(x)
+#' mapping("B", "Z", unmapped=I)(x)  # Same
+#' 
 #' @importFrom stats setNames
 #' @export
-mapping <- function(from, to, na=NA, ch.as.fact=TRUE) {
+mapping <- function(from, to, na=NA, ch.as.fact=TRUE, unmapped=NA) {
   if (missing(to)) {
     x <- from
     if (!is.null(names(x))) {
@@ -78,8 +96,17 @@ mapping <- function(from, to, na=NA, ch.as.fact=TRUE) {
       to <- c(to, na)
     }
   }
+  if (!is.atomic(from)) {
+    stop("'from' should be atomic")
+  }
+  if (!is.atomic(to)) {
+    stop("'to' should be atomic")
+  }
   if (length(from) != length(to)) {
-    stop("Lengths of from and to should be the same")
+    stop("Lengths of 'from' and 'to' should be the same")
+  }
+  if (!(is.atomic(unmapped) && length(unmapped) == 1 || is.function(unmapped))) {
+    stop("'unmapped` should either be atomic of length 1 or a function")
   }
   from.dup <- duplicated(from)
   to.dup <- duplicated(to)
@@ -112,14 +139,30 @@ mapping <- function(from, to, na=NA, ch.as.fact=TRUE) {
       from.unique.to <- factor(from.unique.to, levels=from.unique.from)
     }
     if (is.character(to)) {
-      to.unique.from <- factor(to.unique.from, levels=unique(c(to.unique.to, na.mapsto)))
+      unmapped.ch <- if (is.character(unmapped)) unmapped else NULL
+      to.unique.from <- factor(to.unique.from, levels=unique(c(to.unique.to, na.mapsto, unmapped.ch)))
+    }
+  }
+
+  if (!is.function(unmapped)) {
+    xx <- unmapped
+    unmapped <- function(y) {
+      rep(xx, length(y))
     }
   }
 
   fn <- function(x) {
     na.x <- is.na(x)
+    no.x <- !na.x & !(x %in% from.unique.from)
+    no.mapsto <- unmapped(x[no.x])
     x <- factor(x, levels=from.unique.from)
     x <- to.unique.from[x]
+    if (is.factor(x) && (is.character(no.mapsto) || is.factor(no.mapsto))) {
+      x <- factor(x, levels=unique(c(levels(x), levels(as.factor(no.mapsto)))))
+    } else if (is.character(x)) {
+      no.mapsto <- as.character(no.mapsto)
+    }
+    x[no.x] <- no.mapsto
     x[na.x] <- na.mapsto
     x
   }
@@ -131,7 +174,14 @@ mapping <- function(from, to, na=NA, ch.as.fact=TRUE) {
     z[na.z] <- na.mapsfrom
     z
   }
-  structure(fn, class="mapping", domain=from, codomain=to)
+  structure(fn, class="mapping", domain=from, codomain=to, unmapped=unmapped)
+}
+
+#' Partial mapping (map certain elements, preserve the rest)
+#' @rdname mapping
+#' @export
+pmapping <- function(..., unmapped=I) {
+  mapping(..., unmapped=unmapped)
 }
 
 #' Domain and codomain of a mapping.
