@@ -2,5 +2,10 @@
 ^.*\.R\.tmp\.R$
 ^_config.yml$
 ^cran-comments\.md$
-^\.travis\.yml$
+^\.github$
 ^CRAN-RELEASE$
+^revdep$
+^.*\.Rproj$
+^\.Rproj\.user$
+^temp.*$
+^CRAN-SUBMISSION$

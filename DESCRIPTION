@@ -1,7 +1,7 @@
 Package: mappings
 Type: Package
-Version: 1.0.0
-Date: 2024-06-19
+Version: 0.2.0
+Date: 2026-10-23
 Title: Functions for Transforming Categorical Variables
 Authors@R: person("Benjamin", "Rich", role=c("aut", "cre", "cph"), email="mail@benjaminrich.net")
 URL: https://github.com/benjaminrich/mappings
@@ -14,4 +14,4 @@ Suggests: testthat
 Language: en-US
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.3

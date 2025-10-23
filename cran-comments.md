@@ -1,46 +1,32 @@
-# Version 0.1
-
-This is the first submission of `mappings` to CRAN.
-
-Addressed the following comments from CRAN reviewer:
-
-* From: Julia Haider <julia.haider@wu.ac.at> on 21-Jun-2021:
-
-  - Please add \value to .Rd files regarding exported methods and explain the
-    functions results in the documentation. Please write about the structure of
-    the output (class) and also what the output means. (If a function does not
-    return a value, please document that too, e.g. \value{No return value, called
-    for side effects} or similar)
-    
-    Missing Rd-tags:
-    * domain.Rd: \value
-    * text2mapping.Rd: \value
-
-    _I fixed this, and while I was at it I updated my roxygen comments._
+# Version 0.2.0
 
 ## Test environments
 
 * Local:
-  - Windows 10, R 4.1.0 (x86_64-w64-mingw32/x64 (64-bit))
-  - Ubuntu Linux 20.04.2 LTS, R 4.1.0 (x86_64-pc-linux-gnu)
-* win-builder:
-  - R Under development (unstable) (2021-06-16 r80504):
-    - 1 NOTE:
-      * New submission
-* R-hub builder (https://builder.r-hub.io)
-  - Windows Server 2008 R2 SP1, R-devel, 32/64 bit
-    - Produced an error unrelated to my package:
-      * Error: Bioconductor does not yet build and check packages for R version 4.2
-  - Ubuntu Linux 20.04.1 LTS, R-release, GCC
-    - 1 NOTE:
-      * New submission
-  - Fedora Linux, R-devel, clang, gfortran
-    - 1 NOTE:
-      * New submission
+  - Windows 11 x64 (build 26100) (x86_64-w64-mingw32/x64), R version 4.5.1 (2025-06-13 ucrt)
+* win-builder (Windows Server 2022 x64 (build 20348), x86_64-w64-mingw32):
+  - R Under development (unstable) (2025-10-22 r88967 ucrt)
+  - R version 4.5.1 (2025-06-13 ucrt)
+* With GitHub actions:
+  - ubuntu-latest (devel)
+    - Ubuntu 24.04.3 LTS (x86_64, linux-gnu), R Under development (unstable) (2025-10-19 r88945)
+  - ubuntu-latest (release)
+    - Ubuntu 24.04.3 LTS (x86_64, linux-gnu), R version 4.5.1 (2025-06-13)
+  - ubuntu-latest (oldrel-1)
+    - Ubuntu 24.04.3 LTS (x86_64, linux-gnu), R version 4.4.3 (2025-02-28)
+  - windows-latest
+    - Windows Server 2022 x64 (build 26100) (x86_64, mingw32), R version 4.5.1 (2025-06-13 ucrt)
+  - macos-latest
+    - macOS Sequoia 15.6.1 (aarch64, darwin20), R version 4.5.1 (2025-06-13)
 
 ## R CMD check results
 
-0 errors | 0 warnings | 0 notes
+0 errors | 0 warnings | 1 note
+
+* checking for future file timestamps ... NOTE
+  unable to verify current time
+
+  - This seems to be a known issue (<https://stackoverflow.com/questions/63613301/>)
 
 ## Reverse dependencies
 

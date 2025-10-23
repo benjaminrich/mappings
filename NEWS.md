@@ -1,8 +1,6 @@
-# `mappings` v1.0.0
+# `mappings` v0.2.0
 
 * Add `unmapped` option and `pmapping()`.
-
-# `mappings` v0.2
 
 * Fix `text2mapping()` so quotes can be used inside mappings.
 
